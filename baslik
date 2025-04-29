@@ -1,6 +1,6 @@
-<!-- Kullanıcı buraya kampanya başlığını yazacak -->
-<div class="baslik">
-  <!-- Örnek: TV+ ile Eğlencenin Sınırlarını Aşın! -->
+<!-- Kullanıcı buraya başlık metni yazacak -->
+<div style="font-size: 24px; font-weight: bold; color: #ffd700; padding: 10px 20px;">
+  TV+ ile Eğlencenin Yeni Tanımı
 </div>
 
 <style>
