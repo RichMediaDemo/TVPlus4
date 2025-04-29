@@ -7,17 +7,18 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', 'Helvetica Neue', sans-serif;
-      background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
-      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      background: #111;
+      color: white;
     }
     header {
-      background-color: #ffd700;
-      padding: 24px;
+      background-color: #ffdd00;
+      padding: 20px;
       text-align: center;
-      color: #000;
-      font-size: 28px;
+      color: #111;
+      font-size: 24px;
       font-weight: bold;
+      text-transform: lowercase;
     }
     .button-group {
       margin: 20px auto;
@@ -27,17 +28,16 @@
     }
     .button-group button {
       padding: 10px 30px;
-      border: 2px solid #ffd700;
-      background: #000;
-      color: #ffd700;
-      border-radius: 24px;
+      border: 2px solid #ffdd00;
+      border-radius: 20px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
+      background: transparent;
+      color: #ffdd00;
     }
-    .button-group button.active, .button-group button:hover {
-      background: #ffd700;
+    .button-group button.active {
+      background-color: #ffdd00;
       color: #000;
     }
     .iframe-container {
@@ -46,24 +46,14 @@
       margin: 20px auto;
       width: 90%;
       max-width: 1000px;
-      background: #1e1e1e;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
       position: relative;
-    }
-    .frame {
-      display: none;
-      width: 100%;
-    }
-    .frame.active {
-      display: block;
     }
     iframe.desktop-frame {
       width: 970px;
       height: 250px;
       border: none;
       border-radius: 12px;
+      box-shadow: 0 0 20px #ffdd00;
     }
     .mobile-frame-wrapper {
       position: relative;
@@ -71,14 +61,12 @@
       height: 720px;
       background: #000;
       border-radius: 40px;
-      box-shadow: 0 8px 24px rgba(255, 215, 0, 0.1);
+      box-shadow: 0 0 30px rgba(255,221,0,0.4);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       overflow: hidden;
-      padding-top: 80px;
-      margin: 0 auto;
     }
     .mobile-notch {
       position: absolute;
@@ -103,33 +91,33 @@
       margin-top: 20px;
       width: 60px;
       height: 60px;
-      background: #ffd700;
+      background: #ffdd00;
       border-radius: 50%;
-      box-shadow: 0 2px 10px rgba(255,215,0,0.5);
+      box-shadow: 0 0 20px rgba(255,221,0,0.5);
+    }
+    .hidden {
+      display: none;
     }
     .content {
       margin: 40px auto;
       width: 90%;
       max-width: 800px;
     }
-    .content iframe {
-      width: 100%;
-      height: 150px;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
-      background: #1e1e1e;
+    .card {
+      background: #eee;
+      border-radius: 16px;
+      padding: 30px;
       margin-bottom: 20px;
-      color: #fff;
+      color: #111;
+      font-size: 18px;
+      font-weight: 500;
+      box-shadow: 0 0 10px rgba(255, 221, 0, 0.3);
     }
     footer {
       text-align: center;
       font-size: 14px;
+      padding: 20px;
       color: #ccc;
-      padding: 30px;
-    }
-    .hidden {
-      display: none;
     }
   </style>
 </head>
@@ -138,27 +126,29 @@
 <header>tv+ rich media sunumu</header>
 
 <div class="button-group">
-  <button id="desktopBtn" class="desktop-button active">Desktop</button>
-  <button id="mobileBtn" class="mobile-button">Mobile</button>
+  <button id="desktopBtn" class="active">Desktop</button>
+  <button id="mobileBtn">Mobile</button>
 </div>
 
 <div class="iframe-container">
-  <div id="desktopFrame" class="frame active">
-    <iframe class="desktop-frame" src="desktop/desktop.html" scrolling="no"></iframe>
-  </div>
-  <div id="mobileFrame" class="frame">
-    <div class="mobile-frame-wrapper">
-      <div class="mobile-notch"></div>
-      <iframe class="mobile-frame" src="mobile/mobile.html" scrolling="no"></iframe>
-      <div class="home-button"></div>
-    </div>
+  <iframe id="desktopFrame" class="desktop-frame" src="desktop/desktop.html"></iframe>
+  <div id="mobileFrameWrapper" class="mobile-frame-wrapper hidden">
+    <div class="mobile-notch"></div>
+    <iframe id="mobileFrame" class="mobile-frame" src="mobile/mobile.html"></iframe>
+    <div class="home-button"></div>
   </div>
 </div>
 
 <div class="content">
-  <iframe src="baslik.html" scrolling="no"></iframe>
-  <iframe src="aciklama.html" scrolling="no"></iframe>
-  <iframe src="b2b.html" scrolling="no"></iframe>
+  <div class="card">
+    <iframe src="baslik.html" width="100%" height="auto" frameborder="0"></iframe>
+  </div>
+  <div class="card">
+    <iframe src="aciklama.html" width="100%" height="auto" frameborder="0"></iframe>
+  </div>
+  <div class="card">
+    <iframe src="b2b.html" width="100%" height="auto" frameborder="0"></iframe>
+  </div>
 </div>
 
 <footer>tv+ rich media sunumu &copy; 2025</footer>
@@ -167,21 +157,41 @@
   const desktopBtn = document.getElementById('desktopBtn');
   const mobileBtn = document.getElementById('mobileBtn');
   const desktopFrame = document.getElementById('desktopFrame');
-  const mobileFrame = document.getElementById('mobileFrame');
+  const mobileFrameWrapper = document.getElementById('mobileFrameWrapper');
 
   desktopBtn.addEventListener('click', () => {
+    desktopFrame.classList.remove('hidden');
+    mobileFrameWrapper.classList.add('hidden');
     desktopBtn.classList.add('active');
     mobileBtn.classList.remove('active');
-    desktopFrame.classList.add('active');
-    mobileFrame.classList.remove('active');
   });
 
   mobileBtn.addEventListener('click', () => {
+    desktopFrame.classList.add('hidden');
+    mobileFrameWrapper.classList.remove('hidden');
     mobileBtn.classList.add('active');
     desktopBtn.classList.remove('active');
-    mobileFrame.classList.add('active');
-    desktopFrame.classList.remove('active');
   });
+
+  // Mouse takip efekti (yalnızca desktop)
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!isTouch) {
+    const effect = document.createElement('div');
+    effect.style.position = 'fixed';
+    effect.style.width = '20px';
+    effect.style.height = '20px';
+    effect.style.borderRadius = '50%';
+    effect.style.background = 'rgba(255,255,255,0.3)';
+    effect.style.boxShadow = '0 0 10px rgba(255,255,255,0.5)';
+    effect.style.pointerEvents = 'none';
+    effect.style.zIndex = '9999';
+    document.body.appendChild(effect);
+
+    document.addEventListener('mousemove', (e) => {
+      effect.style.top = (e.clientY - 10) + 'px';
+      effect.style.left = (e.clientX - 10) + 'px';
+    });
+  }
 </script>
 
 </body>
