@@ -7,13 +7,12 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom, #000000, #1a1a1a);
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #111 20%, #000 100%);
       color: #fff;
-      cursor: none;
     }
     header {
-      background-color: #ffdd00;
+      background-color: #ffd700;
       padding: 20px;
       text-align: center;
       color: #000;
@@ -29,28 +28,25 @@
     }
     .button-group button {
       padding: 10px 30px;
-      border: 2px solid #ffdd00;
+      border: 2px solid #ffd700;
       background: transparent;
+      color: #ffd700;
       border-radius: 30px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      color: #ffdd00;
-      transition: 0.3s;
     }
     .button-group button.active {
-      background-color: #ffdd00;
-      color: black;
+      background-color: #ffd700;
+      color: #000;
     }
     .iframe-container {
       display: flex;
       justify-content: center;
       margin: 20px auto;
-      width: 90%;
+      width: 100%;
       max-width: 1000px;
-      background: none;
-      border-radius: 20px;
-      padding: 20px;
+      background: transparent;
       position: relative;
     }
     iframe.desktop-frame {
@@ -58,7 +54,7 @@
       height: 250px;
       border: none;
       border-radius: 12px;
-      box-shadow: 0 0 25px 5px #ffdd00;
+      box-shadow: 0 0 20px #ffd700;
     }
     .mobile-frame-wrapper {
       position: relative;
@@ -66,12 +62,13 @@
       height: 720px;
       background: #000;
       border-radius: 40px;
-      box-shadow: 0 0 25px 5px #ffdd00;
+      box-shadow: 0 0 30px #ffd700;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      padding-top: 80px;
     }
     .mobile-notch {
       position: absolute;
@@ -91,14 +88,15 @@
       border: none;
       border-radius: 30px;
       background: white;
+      z-index: 2;
     }
     .home-button {
       margin-top: 20px;
       width: 60px;
       height: 60px;
-      background: #ffdd00;
+      background: #ffd700;
       border-radius: 50%;
-      box-shadow: 0 0 15px 5px #ffdd00;
+      box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
     }
     .hidden {
       display: none;
@@ -113,63 +111,64 @@
       border-radius: 16px;
       padding: 20px;
       margin-bottom: 20px;
-      box-shadow: 0 0 15px rgba(255, 221, 0, 0.5);
-      color: #111;
+      box-shadow: 0 0 10px #ffd700;
+      color: #000;
     }
-    .card p {
-      font-size: 16px;
-      color: #111;
+    .card h2, .card p, .card pre {
+      color: #000;
     }
-    footer {
-      text-align: center;
-      font-size: 14px;
-      padding: 20px;
-      color: #ccc;
-    }
-    .cursor-effect {
-      position: fixed;
+    .cursor {
+      position: absolute;
       width: 20px;
       height: 20px;
-      background: radial-gradient(circle, #fff, transparent);
+      background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.2) 60%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: overlay;
+      z-index: 999;
+      display: none;
     }
   </style>
 </head>
 <body>
-<div class="cursor-effect"></div>
+
 <header>tv+ rich media sunumu</header>
+
 <div class="button-group">
-  <button id="desktopBtn" class="desktop-button active">Desktop</button>
-  <button id="mobileBtn" class="mobile-button">Mobile</button>
+  <button id="desktopBtn" class="active">Desktop</button>
+  <button id="mobileBtn">Mobile</button>
 </div>
+
 <div class="iframe-container">
   <iframe id="desktopFrame" class="desktop-frame" src="desktop/desktop.html"></iframe>
   <div id="mobileFrameWrapper" class="mobile-frame-wrapper hidden">
     <div class="mobile-notch"></div>
     <iframe id="mobileFrame" class="mobile-frame" src="mobile/mobile.html"></iframe>
     <div class="home-button"></div>
+    <div id="mobileCursor" class="cursor"></div>
   </div>
 </div>
+
 <div class="content">
-  <iframe src="baslik.html" width="100%" height="auto" style="border:none; overflow:visible;"></iframe>
-  <iframe src="aciklama.html" width="100%" height="auto" style="border:none; overflow:visible;"></iframe>
-  <iframe src="b2b.html" width="100%" height="auto" style="border:none; overflow:visible;"></iframe>
+  <iframe src="baslik.html" width="100%" height="auto" frameborder="0" style="margin-bottom: 20px;"></iframe>
+  <iframe src="aciklama.html" width="100%" height="150" frameborder="0"></iframe>
+  <iframe src="b2b.html" width="100%" height="150" frameborder="0"></iframe>
 </div>
-<footer>tv+ rich media sunumu &copy; 2025</footer>
+
+<footer style="text-align:center; color: #ccc; font-size: 12px; padding: 20px;">tv+ rich media sunumu © 2025</footer>
+
 <script>
   const desktopBtn = document.getElementById('desktopBtn');
   const mobileBtn = document.getElementById('mobileBtn');
   const desktopFrame = document.getElementById('desktopFrame');
   const mobileFrameWrapper = document.getElementById('mobileFrameWrapper');
+  const mobileCursor = document.getElementById('mobileCursor');
 
   desktopBtn.addEventListener('click', () => {
     desktopFrame.classList.remove('hidden');
     mobileFrameWrapper.classList.add('hidden');
     desktopBtn.classList.add('active');
     mobileBtn.classList.remove('active');
+    mobileCursor.style.display = 'none';
   });
 
   mobileBtn.addEventListener('click', () => {
@@ -177,13 +176,25 @@
     mobileFrameWrapper.classList.remove('hidden');
     mobileBtn.classList.add('active');
     desktopBtn.classList.remove('active');
+    mobileCursor.style.display = 'block';
   });
 
-  const cursor = document.querySelector('.cursor-effect');
   document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+    if (!mobileFrameWrapper.classList.contains('hidden')) {
+      const rect = mobileFrameWrapper.getBoundingClientRect();
+      if (
+        e.clientX >= rect.left && e.clientX <= rect.right &&
+        e.clientY >= rect.top && e.clientY <= rect.bottom
+      ) {
+        mobileCursor.style.left = `${e.clientX - 10}px`;
+        mobileCursor.style.top = `${e.clientY - 10}px`;
+        mobileCursor.style.display = 'block';
+      } else {
+        mobileCursor.style.display = 'none';
+      }
+    }
   });
 </script>
+
 </body>
 </html>
