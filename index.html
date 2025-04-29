@@ -7,15 +7,16 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #111;
-      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #000000, #1a1a1a);
+      color: #fff;
+      cursor: none;
     }
     header {
       background-color: #ffdd00;
       padding: 20px;
       text-align: center;
-      color: #111;
+      color: #000;
       font-size: 24px;
       font-weight: bold;
       text-transform: lowercase;
@@ -29,16 +30,17 @@
     .button-group button {
       padding: 10px 30px;
       border: 2px solid #ffdd00;
-      border-radius: 20px;
+      background: transparent;
+      border-radius: 30px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      background: transparent;
       color: #ffdd00;
+      transition: 0.3s;
     }
     .button-group button.active {
       background-color: #ffdd00;
-      color: #000;
+      color: black;
     }
     .iframe-container {
       display: flex;
@@ -46,6 +48,9 @@
       margin: 20px auto;
       width: 90%;
       max-width: 1000px;
+      background: none;
+      border-radius: 20px;
+      padding: 20px;
       position: relative;
     }
     iframe.desktop-frame {
@@ -53,7 +58,7 @@
       height: 250px;
       border: none;
       border-radius: 12px;
-      box-shadow: 0 0 20px #ffdd00;
+      box-shadow: 0 0 25px 5px #ffdd00;
     }
     .mobile-frame-wrapper {
       position: relative;
@@ -61,7 +66,7 @@
       height: 720px;
       background: #000;
       border-radius: 40px;
-      box-shadow: 0 0 30px rgba(255,221,0,0.4);
+      box-shadow: 0 0 25px 5px #ffdd00;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -93,7 +98,7 @@
       height: 60px;
       background: #ffdd00;
       border-radius: 50%;
-      box-shadow: 0 0 20px rgba(255,221,0,0.5);
+      box-shadow: 0 0 15px 5px #ffdd00;
     }
     .hidden {
       display: none;
@@ -104,14 +109,16 @@
       max-width: 800px;
     }
     .card {
-      background: #eee;
+      background: #f0f0f0;
       border-radius: 16px;
-      padding: 30px;
+      padding: 20px;
       margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(255, 221, 0, 0.5);
       color: #111;
-      font-size: 18px;
-      font-weight: 500;
-      box-shadow: 0 0 10px rgba(255, 221, 0, 0.3);
+    }
+    .card p {
+      font-size: 16px;
+      color: #111;
     }
     footer {
       text-align: center;
@@ -119,17 +126,25 @@
       padding: 20px;
       color: #ccc;
     }
+    .cursor-effect {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #fff, transparent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: overlay;
+    }
   </style>
 </head>
 <body>
-
+<div class="cursor-effect"></div>
 <header>tv+ rich media sunumu</header>
-
 <div class="button-group">
-  <button id="desktopBtn" class="active">Desktop</button>
-  <button id="mobileBtn">Mobile</button>
+  <button id="desktopBtn" class="desktop-button active">Desktop</button>
+  <button id="mobileBtn" class="mobile-button">Mobile</button>
 </div>
-
 <div class="iframe-container">
   <iframe id="desktopFrame" class="desktop-frame" src="desktop/desktop.html"></iframe>
   <div id="mobileFrameWrapper" class="mobile-frame-wrapper hidden">
@@ -138,21 +153,12 @@
     <div class="home-button"></div>
   </div>
 </div>
-
 <div class="content">
-  <div class="card">
-    <iframe src="baslik.html" width="100%" height="auto" frameborder="0"></iframe>
-  </div>
-  <div class="card">
-    <iframe src="aciklama.html" width="100%" height="auto" frameborder="0"></iframe>
-  </div>
-  <div class="card">
-    <iframe src="b2b.html" width="100%" height="auto" frameborder="0"></iframe>
-  </div>
+  <iframe src="baslik.html" width="100%" height="auto" style="border:none; overflow:visible;"></iframe>
+  <iframe src="aciklama.html" width="100%" height="auto" style="border:none; overflow:visible;"></iframe>
+  <iframe src="b2b.html" width="100%" height="auto" style="border:none; overflow:visible;"></iframe>
 </div>
-
 <footer>tv+ rich media sunumu &copy; 2025</footer>
-
 <script>
   const desktopBtn = document.getElementById('desktopBtn');
   const mobileBtn = document.getElementById('mobileBtn');
@@ -173,26 +179,11 @@
     desktopBtn.classList.remove('active');
   });
 
-  // Mouse takip efekti (yalnızca desktop)
-  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (!isTouch) {
-    const effect = document.createElement('div');
-    effect.style.position = 'fixed';
-    effect.style.width = '20px';
-    effect.style.height = '20px';
-    effect.style.borderRadius = '50%';
-    effect.style.background = 'rgba(255,255,255,0.3)';
-    effect.style.boxShadow = '0 0 10px rgba(255,255,255,0.5)';
-    effect.style.pointerEvents = 'none';
-    effect.style.zIndex = '9999';
-    document.body.appendChild(effect);
-
-    document.addEventListener('mousemove', (e) => {
-      effect.style.top = (e.clientY - 10) + 'px';
-      effect.style.left = (e.clientX - 10) + 'px';
-    });
-  }
+  const cursor = document.querySelector('.cursor-effect');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
 </script>
-
 </body>
 </html>
